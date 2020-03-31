@@ -214,9 +214,10 @@ class Request {
       uri,
       body: options.body,
       json: 'json' in options ? Boolean(options.json) : true,
-      qs: options.parameters || options.qs,
-      headers: options.headers
+      qs: options.parameters || options.qs
     }, this.requestOptions)
+
+    requestOptions.headers = Object.assign({}, this.requestOptions, options.headers)
 
     if (options.noAuth) {
       delete requestOptions.auth
