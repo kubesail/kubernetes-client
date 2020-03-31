@@ -217,7 +217,7 @@ class Request {
       qs: options.parameters || options.qs
     }, this.requestOptions)
 
-    requestOptions.headers = Object.assign({}, this.requestOptions, options.headers)
+    requestOptions.headers = Object.assign({}, this.requestOptions.headers, options.headers)
 
     if (options.noAuth) {
       delete requestOptions.auth
