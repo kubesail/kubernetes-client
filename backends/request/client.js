@@ -229,7 +229,7 @@ class Request {
       this._request(requestOptions, (err, res) => {
         if (err) return reject(err)
         if (res.statusCode < 200 || res.statusCode > 299) {
-          const error = new Error(res.body.message || res.body)
+          const error = new Error(res.body ? res.body.message || res.body : 'No response from Kubernetes API')
           // .code is backwards compatible with pre-5.0.0 code.
           error.code = res.statusCode
           error.statusCode = res.statusCode
