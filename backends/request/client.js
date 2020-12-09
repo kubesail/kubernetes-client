@@ -169,8 +169,8 @@ class Request {
     })
   }
 
-  async getLogByteStream (options) {
-    return this.http(Object.assign({ stream: true }, options))
+  async getLogByteStream (options, callback) {
+    return this.http(Object.assign({ stream: true }, options), callback)
   }
 
   async getWatchObjectStream (options) {
@@ -203,12 +203,11 @@ class Request {
 
   /**
    * Invoke a REST request against the Kubernetes API server
-   * @param {string} method - HTTP method, passed directly to `request`
    * @param {ApiRequestOptions} options - Options object
-   * @param {callback} cb - The callback that handles the response
-   * @returns {Stream} If cb is falsy, return a stream
+   * @param {callback} callback - The callback that handles the response, only used if stream is true
+   * @returns {Stream|Promise} - either returns a stream (when options.stream: true) or a Promise
    */
-  http (options) {
+  http (options, callback) {
     const uri = options.pathname
     const requestOptions = Object.assign({
       method: options.method,
@@ -228,9 +227,7 @@ class Request {
       delete requestOptions.auth
     }
 
-    if (options.stream) return request(requestOptions, (err) => {
-      if (err) console.error('KUBERNETES_CLIENT_ERROR:', err);
-    }) 
+    if (options.stream) return request(requestOptions, callback)
 
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
