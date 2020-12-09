@@ -219,15 +219,16 @@ class Request {
 
     requestOptions.headers = Object.assign({}, this.requestOptions.headers, options.headers)
 
-    if (options.timeout) {
-      requestOptions.timeout = options.timeout
-    }
-
     if (options.noAuth) {
       delete requestOptions.auth
     }
 
     if (options.stream) return request(requestOptions, callback)
+
+    if (options.timeout) {
+      console.log('SETTING REQUEST TIMEOUT:', options.timeout)
+      requestOptions.timeout = options.timeout
+    }
 
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
