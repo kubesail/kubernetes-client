@@ -220,11 +220,17 @@ class Request {
 
     requestOptions.headers = Object.assign({}, this.requestOptions.headers, options.headers)
 
+    if (options.timeout) {
+      requestOptions.timeout = options.timeout
+    }
+
     if (options.noAuth) {
       delete requestOptions.auth
     }
 
-    if (options.stream) return request(requestOptions)
+    if (options.stream) return request(requestOptions, (err) => {
+      if (err) console.error('KUBERNETES_CLIENT_ERROR:', err);
+    }) 
 
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
