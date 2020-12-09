@@ -214,7 +214,8 @@ class Request {
       uri,
       body: options.body,
       json: 'json' in options ? Boolean(options.json) : true,
-      qs: options.parameters || options.qs
+      qs: options.parameters || options.qs,
+      timeout: options.timeout
     }, this.requestOptions)
 
     requestOptions.headers = Object.assign({}, this.requestOptions.headers, options.headers)
@@ -225,7 +226,7 @@ class Request {
 
     if (options.stream) return request(requestOptions, callback)
 
-    console.log('REQUEST OPTIONS:', requestOptions)
+    console.log('REQUEST OPTIONS:', { requestOptions, options })
 
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
