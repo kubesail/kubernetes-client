@@ -225,10 +225,7 @@ class Request {
 
     if (options.stream) return request(requestOptions, callback)
 
-    if (options.timeout) {
-      console.log('SETTING REQUEST TIMEOUT:', options.timeout)
-      requestOptions.timeout = options.timeout
-    }
+    console.log('REQUEST OPTIONS:', requestOptions)
 
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
