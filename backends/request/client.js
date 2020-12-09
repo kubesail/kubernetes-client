@@ -226,8 +226,6 @@ class Request {
 
     if (options.stream) return request(requestOptions, callback)
 
-    console.log('REQUEST OPTIONS:', { requestOptions, options })
-
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
         if (err) return reject(err)
