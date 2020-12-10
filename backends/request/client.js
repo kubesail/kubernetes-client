@@ -224,7 +224,11 @@ class Request {
       delete requestOptions.auth
     }
 
-    if (options.stream) return request(requestOptions, callback)
+    if (options.stream) {
+      // Never set a timeout when streaming results (ie: a watch)
+      delete requestOptions.timeout
+      return request(requestOptions, callback)
+    }
 
     return new Promise((resolve, reject) => {
       this._request(requestOptions, (err, res) => {
